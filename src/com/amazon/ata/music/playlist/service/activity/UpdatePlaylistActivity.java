@@ -1,10 +1,17 @@
 package com.amazon.ata.music.playlist.service.activity;
 
+import com.amazon.ata.music.playlist.service.converters.ModelConverter;
+import com.amazon.ata.music.playlist.service.dynamodb.models.Playlist;
+import com.amazon.ata.music.playlist.service.exceptions.InvalidAttributeChangeException;
+import com.amazon.ata.music.playlist.service.exceptions.InvalidAttributeException;
+import com.amazon.ata.music.playlist.service.exceptions.InvalidAttributeValueException;
 import com.amazon.ata.music.playlist.service.models.PlaylistModel;
 import com.amazon.ata.music.playlist.service.models.requests.UpdatePlaylistRequest;
+import com.amazon.ata.music.playlist.service.models.results.CreatePlaylistResult;
 import com.amazon.ata.music.playlist.service.models.results.UpdatePlaylistResult;
 import com.amazon.ata.music.playlist.service.dynamodb.PlaylistDao;
 
+import com.amazon.ata.music.playlist.service.util.MusicPlaylistServiceUtils;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
@@ -50,8 +57,23 @@ public class UpdatePlaylistActivity implements RequestHandler<UpdatePlaylistRequ
     public UpdatePlaylistResult handleRequest(final UpdatePlaylistRequest updatePlaylistRequest, Context context) {
         log.info("Received UpdatePlaylistRequest {}", updatePlaylistRequest);
 
-        return UpdatePlaylistResult.builder()
-                .withPlaylist(new PlaylistModel())
-                .build();
+        if (!MusicPlaylistServiceUtils.isValidString(updatePlaylistRequest.getName())) {
+            throw new InvalidAttributeValueException();
+        }
+
+        Playlist playlist = playlistDao.getPlaylist(updatePlaylistRequest.getId());
+
+        if (!updatePlaylistRequest.getCustomerId().equals(playlist.getCustomerId())) {
+            throw new InvalidAttributeChangeException();
+        }
+
+        playlist.setName(updatePlaylistRequest.getName());
+
+        playlistDao.savePlaylist(playlist);
+
+        PlaylistModel playlistModel = new ModelConverter().toPlaylistModel(playlist);
+
+        return UpdatePlaylistResult.builder().withPlaylist(playlistModel).build();
+
     }
 }

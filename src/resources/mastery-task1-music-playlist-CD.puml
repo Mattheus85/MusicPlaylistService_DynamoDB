@@ -21,6 +21,7 @@ class AlbumTrackDao {
 class PlaylistDao {
     -dynamoDbMapper : DynamoDBMapper
     +getPlaylist(String) : Playlist
+    +savePlaylist(Playlist) : Playlist
 }
 
 class CreatePlaylistActivity {
@@ -42,7 +43,12 @@ class AddSongToPlaylistActivity {
 class AlbumTrackNotFoundException {}
 class InvalidAttributeValueException {}
 class PlaylistNotFoundException {}
+class InvalidAttributeChangeException {}
+class InvalidAttributeValueException {}
+class InvalidAttributeException {}
 
+InvalidAttributeChangeException --|> InvalidAttributeException
+InvalidAttributeValueException --|> InvalidAttributeException
 Playlist o-- AlbumTrack
 AddSongToPlaylistActivity o-- AlbumTrackDao
 CreatePlaylistActivity o-- PlaylistDao
