@@ -64,13 +64,11 @@ public class UpdatePlaylistActivity implements RequestHandler<UpdatePlaylistRequ
         if (!MusicPlaylistServiceUtils.isValidString(updatePlaylistRequest.getName())) {
             throw new InvalidAttributeValueException();
         }
-
         Playlist playlist = playlistDao.getPlaylist(updatePlaylistRequest.getId());
 
         if (!updatePlaylistRequest.getCustomerId().equals(playlist.getCustomerId())) {
             throw new InvalidAttributeChangeException();
         }
-
         playlist.setName(updatePlaylistRequest.getName());
 
         playlistDao.savePlaylist(playlist);

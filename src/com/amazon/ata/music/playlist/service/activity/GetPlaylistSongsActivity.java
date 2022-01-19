@@ -54,18 +54,16 @@ public class GetPlaylistSongsActivity implements RequestHandler<GetPlaylistSongs
         log.info("Received GetPlaylistSongsRequest {}", getPlaylistSongsRequest);
 
         Playlist playlist = playlistDao.getPlaylist(getPlaylistSongsRequest.getId());
+        SongOrder songOrder = getPlaylistSongsRequest.getOrder();
+        List<AlbumTrack> albumTrackList = playlist.getSongList();
 
-        if (getPlaylistSongsRequest.getOrder() != null && getPlaylistSongsRequest.getOrder().equals(SongOrder.SHUFFLED)) {
-            Collections.shuffle(playlist.getSongList());
-        } else if (getPlaylistSongsRequest.getOrder() != null && getPlaylistSongsRequest.getOrder().equals(SongOrder.REVERSED)) {
-            Collections.reverse(playlist.getSongList());
+        if (songOrder != null && songOrder.equals(SongOrder.SHUFFLED)) {
+            Collections.shuffle(albumTrackList);
+        } else if (songOrder != null && songOrder.equals(SongOrder.REVERSED)) {
+            Collections.reverse(albumTrackList);
         }
 
-        List<SongModel> songModelList = new ArrayList<>();
-        for (AlbumTrack song : playlist.getSongList()) {
-            SongModel songModel = new ModelConverter().toSongModel(song);
-            songModelList.add(songModel);
-        }
+        List<SongModel> songModelList = new ModelConverter().toSongModelList(albumTrackList);
 
         return GetPlaylistSongsResult.builder().withSongList(songModelList).build();
 

@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class ModelConverter {
+
     /**
      * Converts a provided {@link Playlist} into a {@link PlaylistModel} representation.
      * @param playlist the playlist to convert
@@ -26,6 +27,11 @@ public class ModelConverter {
             .build();
     }
 
+    /**
+     * Converts a provided {@link AlbumTrack} into a {@link SongModel} representation.
+     * @param albumTrack the albumTrack (or song) to convert
+     * @return the converted albumTrack
+     */
     public SongModel toSongModel(AlbumTrack albumTrack) {
 
         return SongModel.builder()
@@ -36,12 +42,15 @@ public class ModelConverter {
                 .build();
     }
 
+    /**
+     * Converts a provided {@link List<AlbumTrack>} into a {@link List<SongModel>} representation.
+     * @param albumTrackList the albumTrackList to be converted
+     * @return the converted albumTrackList
+     */
     public List<SongModel> toSongModelList(List<AlbumTrack> albumTrackList) {
-
-        List<AlbumTrack> albumTrackList1 = new ArrayList<>(albumTrackList);
         List<SongModel> songModelList = new ArrayList<>();
 
-        for (AlbumTrack song : albumTrackList1) {
+        for (AlbumTrack song : albumTrackList) {
             songModelList.add(toSongModel(song));
         }
 

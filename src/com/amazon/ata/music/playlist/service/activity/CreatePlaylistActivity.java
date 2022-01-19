@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Implementation of the CreatePlaylistActivity for the MusicPlaylistService's CreatePlaylist API.
@@ -52,8 +53,8 @@ public class CreatePlaylistActivity implements RequestHandler<CreatePlaylistRequ
      */
     @Override
     public CreatePlaylistResult handleRequest(final CreatePlaylistRequest createPlaylistRequest, Context context) {
-        String playlistId;
         log.info("Received CreatePlaylistRequest {}", createPlaylistRequest);
+
         if (!MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getName()) ||
             !MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getCustomerId())) {
             throw new InvalidAttributeValueException();
@@ -66,8 +67,9 @@ public class CreatePlaylistActivity implements RequestHandler<CreatePlaylistRequ
         playlist.setSongList(new ArrayList<>());
         playlist.setSongCount(0);
 
-        if (createPlaylistRequest.getTags() != null && !createPlaylistRequest.getTags().isEmpty()) {
-            playlist.setTags(new HashSet<>(createPlaylistRequest.getTags()));
+        List<String> tagList = createPlaylistRequest.getTags();
+        if (tagList != null && !tagList.isEmpty()) {
+            playlist.setTags(new HashSet<>(tagList));
         } else {
             createPlaylistRequest.setTags(null);
         }

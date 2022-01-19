@@ -46,12 +46,11 @@ public class GetPlaylistActivity implements RequestHandler<GetPlaylistRequest, G
     @Override
     public GetPlaylistResult handleRequest(final GetPlaylistRequest getPlaylistRequest, Context context) {
         log.info("Received GetPlaylistRequest {}", getPlaylistRequest);
-        String requestedId = getPlaylistRequest.getId();
-        Playlist playlist = playlistDao.getPlaylist(requestedId);
+
+        Playlist playlist = playlistDao.getPlaylist(getPlaylistRequest.getId());
+
         PlaylistModel playlistModel = new ModelConverter().toPlaylistModel(playlist);
 
-        return GetPlaylistResult.builder()
-                .withPlaylist(playlistModel)
-                .build();
+        return GetPlaylistResult.builder().withPlaylist(playlistModel).build();
     }
 }
