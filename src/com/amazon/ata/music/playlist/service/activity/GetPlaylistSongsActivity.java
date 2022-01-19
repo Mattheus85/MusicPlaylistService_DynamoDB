@@ -55,9 +55,9 @@ public class GetPlaylistSongsActivity implements RequestHandler<GetPlaylistSongs
 
         Playlist playlist = playlistDao.getPlaylist(getPlaylistSongsRequest.getId());
 
-        if (getPlaylistSongsRequest.getOrder() == SongOrder.SHUFFLED) {
+        if (getPlaylistSongsRequest.getOrder() != null && getPlaylistSongsRequest.getOrder().equals(SongOrder.SHUFFLED)) {
             Collections.shuffle(playlist.getSongList());
-        } else if (getPlaylistSongsRequest.getOrder() == SongOrder.REVERSED) {
+        } else if (getPlaylistSongsRequest.getOrder() != null && getPlaylistSongsRequest.getOrder().equals(SongOrder.REVERSED)) {
             Collections.reverse(playlist.getSongList());
         }
 
