@@ -34,19 +34,20 @@ Remember that:
 List the class(es) that `App.java` provides that are **not** dependencies of other classes, that is, no other classes
  in the project depend on these classes
 
-* 
+* CreatePlaylistActivity, GetPlaylistActivity, UpdatePlaylistActivity, AddSongToPlaylistActivity, GetPlaylistSongsActivity
 
 List the class(es) that `App.java` provides that **are** dependencies of other classes
 
-* 
+* PlaylistDao, AlbumTrackDao, DynamoDBMapper
 
 List the class(es) that `App.java` creates that have constructors we must annotate with `@Inject`
 
-* 
+* CreatePlaylistActivity, GetPlaylistActivity, UpdatePlaylistActivity, AddSongToPlaylistActivity,
+  GetPlaylistSongsActivity, PlaylistDao, AlbumTrackDao, DynamoDBMapper
 
 List the class(es) that `App.java` creates that we must provide in a Dagger module
 
-* 
+* PlaylistDao, AlbumTrackDao, DynamoDBMapper
 
 List the class(es) that `App.java` creates as Singletons.
 
@@ -60,28 +61,28 @@ your module, `DaoModule`, as indicated below. Use these names in
 your implementation as well)
 
 ```
-@______
-@______(______ = {______.class})
+@Singleton
+@Component(modules = {DaoModule.class})
 public interface ServiceComponent {
-    ______ provide______();
+    CreatePlaylistActivity provideCreatePlaylistActivity();
 
-    ______ provide______();
+    CreatePlaylistActivity provide______();
 
-    ______ provide______();
+    GetPlaylistActivity provide______();
 
-    ______ provide______();
+    UpdatePlaylistActivity provide______();
 
-    ______ provide______();
+    AddSongToPlaylistActivity provideAddSongToPlaylistActivity();
 }
 ```
 
 ```
-@______
+@Module
 public class DaoModule {
 
-    @______
-    @______
-    public ______ provide______() {
+    @Singleton
+    @Provides
+    public DynamoDBMapper provideDynamoDBMapper() {
         // Implementation in milestone 2
     }
 }
