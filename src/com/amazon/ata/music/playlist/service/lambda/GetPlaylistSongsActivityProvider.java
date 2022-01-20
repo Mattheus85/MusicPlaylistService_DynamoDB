@@ -7,11 +7,15 @@ import com.amazon.ata.music.playlist.service.models.results.GetPlaylistSongsResu
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-public class GetPlaylistSongsActivityProvider implements RequestHandler<GetPlaylistSongsRequest, GetPlaylistSongsResult> {
+public class GetPlaylistSongsActivityProvider
+        implements RequestHandler<GetPlaylistSongsRequest, GetPlaylistSongsResult> {
 
     @Override
-    public GetPlaylistSongsResult handleRequest(final GetPlaylistSongsRequest getPlaylistSongsRequest, Context context) {
-        return getDaggerServiceComponent().provideGetPlaylistSongsActivity().handleRequest(getPlaylistSongsRequest, context);
+    public GetPlaylistSongsResult handleRequest(final GetPlaylistSongsRequest getPlaylistSongsRequest,
+                                                Context context) {
+        return getDaggerServiceComponent()
+                .provideGetPlaylistSongsActivity()
+                .handleRequest(getPlaylistSongsRequest, context);
     }
 
     private ServiceComponent getDaggerServiceComponent() {

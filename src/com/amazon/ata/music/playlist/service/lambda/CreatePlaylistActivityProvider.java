@@ -11,7 +11,9 @@ public class CreatePlaylistActivityProvider implements RequestHandler<CreatePlay
 
     @Override
     public CreatePlaylistResult handleRequest(final CreatePlaylistRequest createPlaylistRequest, Context context) {
-        return getDaggerServiceComponent().provideCreatePlaylistActivity().handleRequest(createPlaylistRequest, context);
+        return getDaggerServiceComponent()
+                .provideCreatePlaylistActivity()
+                .handleRequest(createPlaylistRequest, context);
     }
 
     private ServiceComponent getDaggerServiceComponent() {

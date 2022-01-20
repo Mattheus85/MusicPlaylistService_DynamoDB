@@ -11,7 +11,9 @@ public class UpdatePlaylistActivityProvider implements RequestHandler<UpdatePlay
 
     @Override
     public UpdatePlaylistResult handleRequest(final UpdatePlaylistRequest updatePlaylistRequest, Context context) {
-        return getDaggerServiceComponent().provideUpdatePlaylistActivity().handleRequest(updatePlaylistRequest, context);
+        return getDaggerServiceComponent()
+                .provideUpdatePlaylistActivity()
+                .handleRequest(updatePlaylistRequest, context);
     }
 
     private ServiceComponent getDaggerServiceComponent() {

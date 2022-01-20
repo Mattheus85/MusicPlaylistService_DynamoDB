@@ -7,11 +7,15 @@ import com.amazon.ata.music.playlist.service.models.results.AddSongToPlaylistRes
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-public class AddSongToPlaylistActivityProvider implements RequestHandler<AddSongToPlaylistRequest, AddSongToPlaylistResult> {
+public class AddSongToPlaylistActivityProvider
+        implements RequestHandler<AddSongToPlaylistRequest, AddSongToPlaylistResult> {
 
     @Override
-    public AddSongToPlaylistResult handleRequest(final AddSongToPlaylistRequest addSongToPlaylistRequest, Context context) {
-        return getDaggerServiceComponent().provideAddSongToPlaylistActivity().handleRequest(addSongToPlaylistRequest, context);
+    public AddSongToPlaylistResult handleRequest(final AddSongToPlaylistRequest addSongToPlaylistRequest,
+                                                 Context context) {
+        return getDaggerServiceComponent()
+                .provideAddSongToPlaylistActivity()
+                .handleRequest(addSongToPlaylistRequest, context);
     }
 
     private ServiceComponent getDaggerServiceComponent() {
