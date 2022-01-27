@@ -30,6 +30,9 @@ public class GetPlaylistSongsRequest {
     }
 
     public SongOrder getOrder() {
+        if (order == null) {
+            throw new IllegalArgumentException("***************FIND ME***************");
+        }
         return order;
     }
 
