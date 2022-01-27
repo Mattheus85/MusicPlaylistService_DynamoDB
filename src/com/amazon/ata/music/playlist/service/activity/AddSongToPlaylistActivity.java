@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -55,18 +56,19 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
      *                                 API defined {@link SongModel}s
      */
     @Override
-    public AddSongToPlaylistResult handleRequest(final AddSongToPlaylistRequest addSongToPlaylistRequest, Context context) {
+    public AddSongToPlaylistResult handleRequest(final AddSongToPlaylistRequest addSongToPlaylistRequest,
+                                                 Context context) {
         log.info("Received AddSongToPlaylistRequest {} ", addSongToPlaylistRequest);
 
         Playlist playlist = playlistDao.getPlaylist(addSongToPlaylistRequest.getId());
-        List<AlbumTrack> albumTrackList = playlist.getSongList();
+        LinkedList<AlbumTrack> albumTrackList = (LinkedList<AlbumTrack>) playlist.getSongList();
         AlbumTrack albumTrack = albumTrackDao.getAlbumTrack(addSongToPlaylistRequest.getAsin(),
                 addSongToPlaylistRequest.getTrackNumber());
 
         if (addSongToPlaylistRequest.isQueueNext()) {
-            albumTrackList.add(0, albumTrack);
+            albumTrackList.addFirst(albumTrack);
         } else {
-            albumTrackList.add(albumTrack);
+            albumTrackList.addLast(albumTrack);
         }
         playlist.setSongCount(playlist.getSongCount() + 1);
 

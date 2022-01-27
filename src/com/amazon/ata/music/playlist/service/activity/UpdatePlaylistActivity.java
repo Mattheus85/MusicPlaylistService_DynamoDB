@@ -4,6 +4,7 @@ import com.amazon.ata.music.playlist.service.converters.ModelConverter;
 import com.amazon.ata.music.playlist.service.dynamodb.models.Playlist;
 import com.amazon.ata.music.playlist.service.exceptions.InvalidAttributeChangeException;
 import com.amazon.ata.music.playlist.service.exceptions.InvalidAttributeValueException;
+import com.amazon.ata.music.playlist.service.exceptions.PlaylistNotFoundException;
 import com.amazon.ata.music.playlist.service.models.PlaylistModel;
 import com.amazon.ata.music.playlist.service.models.requests.UpdatePlaylistRequest;
 import com.amazon.ata.music.playlist.service.models.results.UpdatePlaylistResult;
@@ -61,6 +62,7 @@ public class UpdatePlaylistActivity implements RequestHandler<UpdatePlaylistRequ
         if (!MusicPlaylistServiceUtils.isValidString(updatePlaylistRequest.getName())) {
             throw new InvalidAttributeValueException();
         }
+
         Playlist playlist = playlistDao.getPlaylist(updatePlaylistRequest.getId());
 
         if (!updatePlaylistRequest.getCustomerId().equals(playlist.getCustomerId())) {
