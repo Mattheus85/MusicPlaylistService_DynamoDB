@@ -1,7 +1,6 @@
 package com.amazon.ata.music.playlist.service.lambda;
 
 import com.amazon.ata.music.playlist.service.dependency.DaggerServiceComponent;
-import com.amazon.ata.music.playlist.service.dependency.ServiceComponent;
 import com.amazon.ata.music.playlist.service.models.requests.AddSongToPlaylistRequest;
 import com.amazon.ata.music.playlist.service.models.results.AddSongToPlaylistResult;
 import com.amazonaws.services.lambda.runtime.Context;
@@ -13,12 +12,8 @@ public class AddSongToPlaylistActivityProvider
     @Override
     public AddSongToPlaylistResult handleRequest(final AddSongToPlaylistRequest addSongToPlaylistRequest,
                                                  Context context) {
-        return getDaggerServiceComponent()
+        return DaggerServiceComponent.create()
                 .provideAddSongToPlaylistActivity()
                 .handleRequest(addSongToPlaylistRequest, context);
-    }
-
-    private ServiceComponent getDaggerServiceComponent() {
-        return DaggerServiceComponent.create();
     }
 }
