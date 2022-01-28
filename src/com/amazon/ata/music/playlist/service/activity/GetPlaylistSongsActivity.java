@@ -55,9 +55,11 @@ public class GetPlaylistSongsActivity implements RequestHandler<GetPlaylistSongs
         SongOrder songOrder = getPlaylistSongsRequest.getOrder();
         List<AlbumTrack> albumTrackList = playlist.getSongList();
 
-        if (songOrder != null && songOrder.equals(SongOrder.SHUFFLED)) {
+        if (songOrder == null) {
+            getPlaylistSongsRequest.setOrder(SongOrder.DEFAULT);
+        } else if (songOrder.equals(SongOrder.SHUFFLED)) {
             Collections.shuffle(albumTrackList);
-        } else if (songOrder != null && songOrder.equals(SongOrder.REVERSED)) {
+        } else if (songOrder.equals(SongOrder.REVERSED)) {
             Collections.reverse(albumTrackList);
         }
 
